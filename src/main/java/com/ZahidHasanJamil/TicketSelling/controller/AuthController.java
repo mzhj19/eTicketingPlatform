@@ -1,9 +1,9 @@
 package com.ZahidHasanJamil.TicketSelling.controller;
 
 import com.ZahidHasanJamil.TicketSelling.exception.NotValidException;
-import com.ZahidHasanJamil.TicketSelling.model.AuthResponseDto;
-import com.ZahidHasanJamil.TicketSelling.model.LoginRequestDto;
-import com.ZahidHasanJamil.TicketSelling.model.RegisterRequestDto;
+import com.ZahidHasanJamil.TicketSelling.dto.AuthResponseDto;
+import com.ZahidHasanJamil.TicketSelling.dto.LoginRequestDto;
+import com.ZahidHasanJamil.TicketSelling.dto.RegisterRequestDto;
 import com.ZahidHasanJamil.TicketSelling.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

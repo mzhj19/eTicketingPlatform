@@ -1,4 +1,4 @@
-package com.ZahidHasanJamil.TicketSelling.model;
+package com.ZahidHasanJamil.TicketSelling.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthResponseDto {
-    private String token;
+public class LoginRequestDto {
+    private String email;
+    private String password;
 }
