@@ -40,7 +40,7 @@ public class AuthController {
     public ResponseEntity<AuthResponseDto> register(@Valid @RequestBody RegisterRequestDto registerRequestDto, BindingResult bindingResult) throws NotValidException {
         System.out.println(registerRequestDto);
         if (bindingResult.hasErrors()) {
-            throw new NotValidException("Email in required. Please give a valid email.");
+            throw new NotValidException("EMAIL IN REQUIRED. PLEASE GIVE A VALID EMAIL");
         }
         return ResponseEntity.ok(authService.register(registerRequestDto));
     }

@@ -1,6 +1,7 @@
 package com.ZahidHasanJamil.TicketSelling.controller;
 
 import com.ZahidHasanJamil.TicketSelling.dto.NewTicketReqDto;
+import com.ZahidHasanJamil.TicketSelling.exception.NotValidException;
 import com.ZahidHasanJamil.TicketSelling.model.Ticket;
 import com.ZahidHasanJamil.TicketSelling.model.User;
 import com.ZahidHasanJamil.TicketSelling.repository.UserRepository;
@@ -39,7 +40,7 @@ public class TicketController {
     @PostMapping("/save")
     public ResponseEntity<String> saveNewTicket(@RequestBody @Valid NewTicketReqDto newTicketReqDto, BindingResult result, @RequestHeader(name = "Authorization") String token) {
         if (result.hasErrors()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("PLEASE GIVE CORRECT DATA");
+            throw new NotValidException("PLEASE GIVE CORRECT DATA");
         }
         if (ticketService.saveNewTicket(newTicketReqDto, token)) {
             return ResponseEntity.status(HttpStatus.CREATED).body("SUCCESSFULLY ADDED THE TICKET");
@@ -50,7 +51,7 @@ public class TicketController {
     @PutMapping("/edit/{id}")
     public ResponseEntity<?> editTicket(@PathVariable Long id, @RequestBody @Valid Ticket updateData, BindingResult result) {
         if (result.hasErrors()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("PLEASE GIVE CORRECT DATA");
+            throw new NotValidException("PLEASE GIVE CORRECT DATA");
         }
         var resData = ticketService.editTicket(id, updateData);
         if (resData != null) {
