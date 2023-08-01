@@ -1,6 +1,7 @@
 package com.ZahidHasanJamil.TicketSelling.controller;
 
 import com.ZahidHasanJamil.TicketSelling.dto.NewTicketReqDto;
+import com.ZahidHasanJamil.TicketSelling.model.Ticket;
 import com.ZahidHasanJamil.TicketSelling.model.User;
 import com.ZahidHasanJamil.TicketSelling.repository.UserRepository;
 import com.ZahidHasanJamil.TicketSelling.service.JwtService;
@@ -45,5 +46,18 @@ public class TicketController {
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("PLEASE GIVE CORRECT DATA");
     }
+
+    @PutMapping("/edit/{id}")
+    public ResponseEntity<?> editTicket(@PathVariable Long id, @RequestBody @Valid Ticket updateData, BindingResult result) {
+        if (result.hasErrors()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("PLEASE GIVE CORRECT DATA");
+        }
+        var resData = ticketService.editTicket(id, updateData);
+        if (resData != null) {
+            return ResponseEntity.ok("TICKET UPDATED SUCCESSFULLY");
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("TICKET CAN'T BE UPDATED");
+    }
+
 }
 

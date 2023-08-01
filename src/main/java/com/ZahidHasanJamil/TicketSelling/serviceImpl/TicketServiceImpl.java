@@ -23,6 +23,7 @@ public class TicketServiceImpl implements TicketService {
     UserRepository userRepository;
     @Autowired
     TicketRepository ticketRepository;
+
     @Override
     public Boolean saveNewTicket(NewTicketReqDto newTicketReqDto, String token) {
         Optional<User> user = userRepository.findByEmail(jwtService.extractUsername(token.substring(7)));
@@ -39,8 +40,29 @@ public class TicketServiceImpl implements TicketService {
         ticket.setSellStatus(false);
 
         var successfullInsert = ticketRepository.save(ticket);
-        if(successfullInsert != null)   return true;
+        if (successfullInsert != null) return true;
 
         return false;
+    }
+
+    @Override
+    public Optional<Ticket> editTicket(Long id, Ticket updateData) {
+        Ticket previousTicket = ticketRepository.findById(id).orElseThrow(null);
+        if (previousTicket == null) return null;
+
+        previousTicket.setTicketType(updateData.getTicketType());
+        previousTicket.setSeller(previousTicket.getSeller());
+        previousTicket.setSellerEmail(previousTicket.getSellerEmail());
+        previousTicket.setDate(updateData.getDate());
+        previousTicket.setFromWhere(updateData.getFromWhere());
+        previousTicket.setToWhere(updateData.getToWhere());
+        previousTicket.setPrice(updateData.getPrice());
+        previousTicket.setSellStatus(updateData.isSellStatus());
+
+        var successfullUpdated = ticketRepository.save(previousTicket);
+        if (successfullUpdated != null) {
+            return Optional.of(successfullUpdated);
+        }
+        return null;
     }
 }
