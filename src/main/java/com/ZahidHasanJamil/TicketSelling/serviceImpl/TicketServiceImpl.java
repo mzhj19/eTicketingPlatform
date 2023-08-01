@@ -36,6 +36,7 @@ public class TicketServiceImpl implements TicketService {
         ticket.setFromWhere(newTicketReqDto.getFromWhere());
         ticket.setToWhere(newTicketReqDto.getToWhere());
         ticket.setPrice(newTicketReqDto.getPrice());
+        ticket.setSellStatus(false);
 
         var successfullInsert = ticketRepository.save(ticket);
         if(successfullInsert != null)   return true;

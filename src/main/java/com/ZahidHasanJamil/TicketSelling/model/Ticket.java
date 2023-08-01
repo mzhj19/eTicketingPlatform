@@ -28,7 +28,7 @@ public class Ticket {
     private String fromWhere;
     private String toWhere;
     private String price;
-    private boolean status;
+    private boolean sellStatus;
 //    @ManyToOne
 //    @JoinColumn(name = "user_id")
 //    private User user;
