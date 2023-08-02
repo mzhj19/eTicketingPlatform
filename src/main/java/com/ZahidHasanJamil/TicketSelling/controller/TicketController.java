@@ -1,6 +1,7 @@
 package com.ZahidHasanJamil.TicketSelling.controller;
 
 import com.ZahidHasanJamil.TicketSelling.dto.NewTicketReqDto;
+import com.ZahidHasanJamil.TicketSelling.dto.SearchReqDto;
 import com.ZahidHasanJamil.TicketSelling.exception.NotValidException;
 import com.ZahidHasanJamil.TicketSelling.model.Ticket;
 import com.ZahidHasanJamil.TicketSelling.model.User;
@@ -15,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -58,6 +60,15 @@ public class TicketController {
             return ResponseEntity.ok("TICKET UPDATED SUCCESSFULLY");
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("TICKET CAN'T BE UPDATED");
+    }
+
+    @PostMapping("/search")
+    public ResponseEntity<?> searchTicket(@RequestBody SearchReqDto searchReqDto) {
+        if (searchReqDto == null) {
+            throw new NotValidException("PLEASE GIVE SEARCH FIELD DATA");
+        }
+        List<Ticket> searchResponse = ticketService.searchTicket(searchReqDto);
+        return ResponseEntity.status(HttpStatus.FOUND).body(searchResponse);
     }
 
 }
