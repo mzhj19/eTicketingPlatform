@@ -63,9 +63,9 @@ public class TicketController {
     }
 
     @PostMapping("/search")
-    public ResponseEntity<?> searchTicket(@RequestBody SearchReqDto searchReqDto) {
-        if (searchReqDto == null) {
-            throw new NotValidException("PLEASE GIVE SEARCH FIELD DATA");
+    public ResponseEntity<?> searchTicket(@RequestBody @Valid SearchReqDto searchReqDto) {
+        if (searchReqDto.getToWhere() == null && searchReqDto.getFromWhere() == null && searchReqDto.getTicketType() == null && searchReqDto.getTDate() == null && searchReqDto.getPrice() == null) {
+            throw new NotValidException("PLEASE GIVE CORRECT SEARCH DATA");
         }
         List<Ticket> searchResponse = ticketService.searchTicket(searchReqDto);
         return ResponseEntity.status(HttpStatus.FOUND).body(searchResponse);

@@ -15,7 +15,7 @@ public class SearchReqDto implements Serializable {
     private static final Long serialVersionUID = 1L;
 
     private String ticketType;
-    private String date;
+    private String tDate;
     private String fromWhere;
     private String toWhere;
     private String price;

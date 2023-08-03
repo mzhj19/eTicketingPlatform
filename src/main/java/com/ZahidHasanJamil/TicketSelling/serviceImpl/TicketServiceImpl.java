@@ -10,8 +10,6 @@ import com.ZahidHasanJamil.TicketSelling.service.JwtService;
 import com.ZahidHasanJamil.TicketSelling.service.TicketService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -72,27 +70,7 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public List<Ticket> searchTicket(SearchReqDto searchReqDto) {
-        Specification<Ticket> spec = Specification.where((root, query, criteriaBuilder) -> null);
-
-        if (searchReqDto.getFromWhere() != null) {
-            spec = spec.and((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("fromwhere"), searchReqDto.getFromWhere()));
-        }
-
-        if (searchReqDto.getToWhere() != null) {
-            spec = spec.and((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("towhere"), searchReqDto.getToWhere()));
-        }
-
-        if (searchReqDto.getTicketType() != null) {
-            spec = spec.and((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("ticketType"), searchReqDto.getTicketType()));
-        }
-
-        if (searchReqDto.getDate() != null) {
-            spec = spec.and((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("date"), searchReqDto.getDate()));
-        }
-
-        if (searchReqDto.getPrice() != null) {
-            spec = spec.and((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("price"), searchReqDto.getPrice()));
-        }
-        return ticketRepository.findAll((Sort) spec);
+        List<Ticket> searchRes = ticketRepository.findBySearchReqDtoObject(searchReqDto.getFromWhere(), searchReqDto.getToWhere(), searchReqDto.getTicketType(), searchReqDto.getTDate(), searchReqDto.getPrice());
+        return searchRes;
     }
 }
