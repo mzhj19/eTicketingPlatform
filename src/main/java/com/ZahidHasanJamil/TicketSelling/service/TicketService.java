@@ -13,4 +13,6 @@ public interface TicketService {
     Optional<Ticket> editTicket(Long id, Ticket updateData);
 
     List<Ticket> searchTicket(SearchReqDto searchReqDto);
+
+    List<Ticket> getBuyableTicket(String token);
 }

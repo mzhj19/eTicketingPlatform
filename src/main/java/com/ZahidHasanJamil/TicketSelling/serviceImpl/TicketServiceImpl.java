@@ -73,4 +73,10 @@ public class TicketServiceImpl implements TicketService {
         List<Ticket> searchRes = ticketRepository.findBySearchReqDtoObject(searchReqDto.getFromWhere(), searchReqDto.getToWhere(), searchReqDto.getTicketType(), searchReqDto.getTDate(), searchReqDto.getPrice());
         return searchRes;
     }
+
+    @Override
+    public List<Ticket> getBuyableTicket(String token) {
+        String sellerEmail = userRepository.findByEmail(jwtService.extractUsername(token.substring(7))).get().getUsername();
+        return ticketRepository.findTicketBySellerEmailNot(sellerEmail);
+    }
 }

@@ -71,5 +71,16 @@ public class TicketController {
         return ResponseEntity.status(HttpStatus.FOUND).body(searchResponse);
     }
 
+    @GetMapping("/buyable")
+    public ResponseEntity<?> getBuyableTicket(@RequestHeader(name = "Authorization") String token) {
+
+        List<Ticket> buyableTicket = ticketService.getBuyableTicket(token);
+
+        if (buyableTicket != null) {
+            return ResponseEntity.status(HttpStatus.OK).body(buyableTicket);
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("NO DATA FOUND");
+    }
+
 }
 
