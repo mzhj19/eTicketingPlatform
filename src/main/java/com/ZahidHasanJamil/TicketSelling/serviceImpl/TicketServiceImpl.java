@@ -99,6 +99,7 @@ public class TicketServiceImpl implements TicketService {
             soldTicket.setTicketType(ticket.getTicketType());
             soldTicket.setSoldDate(LocalDateTime.now());
             soldTicket.setAmountInTk(ticket.getPrice());
+            soldTicket.setTicket(ticket);
             soldTicketRepository.save(soldTicket);
 
             return true;
