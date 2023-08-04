@@ -1,11 +1,13 @@
 package com.ZahidHasanJamil.TicketSelling.controller;
 
+import com.ZahidHasanJamil.TicketSelling.dto.EmailDetails;
 import com.ZahidHasanJamil.TicketSelling.dto.NewTicketReqDto;
 import com.ZahidHasanJamil.TicketSelling.dto.SearchReqDto;
 import com.ZahidHasanJamil.TicketSelling.exception.NotValidException;
 import com.ZahidHasanJamil.TicketSelling.model.Ticket;
 import com.ZahidHasanJamil.TicketSelling.model.User;
 import com.ZahidHasanJamil.TicketSelling.repository.UserRepository;
+import com.ZahidHasanJamil.TicketSelling.service.EmailService;
 import com.ZahidHasanJamil.TicketSelling.service.JwtService;
 import com.ZahidHasanJamil.TicketSelling.service.TicketService;
 import jakarta.validation.Valid;
@@ -29,6 +31,8 @@ public class TicketController {
     UserRepository userRepository;
     @Autowired
     TicketService ticketService;
+    @Autowired
+    EmailService emailService;
 
     @PostMapping
     public String bookedTicket(@RequestHeader(name = "Authorization") String token) {
@@ -91,5 +95,9 @@ public class TicketController {
         return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("TICKET CAN'T BE BOUGHT RIGHT NOW.PLEASE TRY AGAIN");
     }
 
+    @PostMapping("/send-email")
+    public String sendEmail(@RequestBody EmailDetails details) {
+        String status = emailService.sendEmail(details);
+        return status;
+    }
 }
-
