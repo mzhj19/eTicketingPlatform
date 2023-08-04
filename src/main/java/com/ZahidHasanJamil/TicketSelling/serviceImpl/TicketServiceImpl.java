@@ -2,8 +2,10 @@ package com.ZahidHasanJamil.TicketSelling.serviceImpl;
 
 import com.ZahidHasanJamil.TicketSelling.dto.NewTicketReqDto;
 import com.ZahidHasanJamil.TicketSelling.dto.SearchReqDto;
+import com.ZahidHasanJamil.TicketSelling.model.SoldTicket;
 import com.ZahidHasanJamil.TicketSelling.model.Ticket;
 import com.ZahidHasanJamil.TicketSelling.model.User;
+import com.ZahidHasanJamil.TicketSelling.repository.SoldTicketRepository;
 import com.ZahidHasanJamil.TicketSelling.repository.TicketRepository;
 import com.ZahidHasanJamil.TicketSelling.repository.UserRepository;
 import com.ZahidHasanJamil.TicketSelling.service.JwtService;
@@ -12,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,6 +28,8 @@ public class TicketServiceImpl implements TicketService {
     UserRepository userRepository;
     @Autowired
     TicketRepository ticketRepository;
+    @Autowired
+    SoldTicketRepository soldTicketRepository;
 
     @Override
     public Boolean saveNewTicket(NewTicketReqDto newTicketReqDto, String token) {
@@ -89,6 +94,13 @@ public class TicketServiceImpl implements TicketService {
             ticket.setBuyer(user.getFirstName() + ' ' + user.getLastName());
             ticket.setSellStatus(true);
             ticketRepository.save(ticket);
+
+            SoldTicket soldTicket = new SoldTicket();
+            soldTicket.setTicketType(ticket.getTicketType());
+            soldTicket.setSoldDate(LocalDateTime.now());
+            soldTicket.setAmountInTk(ticket.getPrice());
+            soldTicketRepository.save(soldTicket);
+
             return true;
         }
         return false;
