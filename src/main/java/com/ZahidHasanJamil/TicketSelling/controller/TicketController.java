@@ -82,5 +82,14 @@ public class TicketController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("NO DATA FOUND");
     }
 
+    @GetMapping("/buy")
+    public ResponseEntity<?> buyTicket(@RequestParam Long id, @RequestHeader(name = "Authorization") String token)   {
+        boolean bought = ticketService.buyTicket(id, token);
+        if(bought)  {
+            return ResponseEntity.status(HttpStatus.OK).body("TICKET HAS BEEN BOUGHT SUCCESSFULLY");
+        }
+        return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("TICKET CAN'T BE BOUGHT RIGHT NOW.PLEASE TRY AGAIN");
+    }
+
 }
 

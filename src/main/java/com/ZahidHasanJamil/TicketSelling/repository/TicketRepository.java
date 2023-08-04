@@ -25,5 +25,5 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
             @Param("price") String price
     );
 
-    List<Ticket> findTicketBySellerEmailNot(String userEmail);
+    List<Ticket> findTicketBySellerEmailNotAndSellStatusFalse(String userEmail);
 }

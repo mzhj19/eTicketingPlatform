@@ -15,4 +15,6 @@ public interface TicketService {
     List<Ticket> searchTicket(SearchReqDto searchReqDto);
 
     List<Ticket> getBuyableTicket(String token);
+
+    boolean buyTicket(Long id, String token);
 }

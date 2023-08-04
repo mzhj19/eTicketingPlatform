@@ -77,6 +77,20 @@ public class TicketServiceImpl implements TicketService {
     @Override
     public List<Ticket> getBuyableTicket(String token) {
         String sellerEmail = userRepository.findByEmail(jwtService.extractUsername(token.substring(7))).get().getUsername();
-        return ticketRepository.findTicketBySellerEmailNot(sellerEmail);
+        return ticketRepository.findTicketBySellerEmailNotAndSellStatusFalse(sellerEmail);
+    }
+
+    @Override
+    public boolean buyTicket(Long id, String token) {
+        Ticket ticket = ticketRepository.findById(id).orElse(null);
+        User user = userRepository.findByEmail(jwtService.extractUsername(token.substring(7))).orElse(null);
+
+        if (ticket != null) {
+            ticket.setBuyer(user.getFirstName() + ' ' + user.getLastName());
+            ticket.setSellStatus(true);
+            ticketRepository.save(ticket);
+            return true;
+        }
+        return false;
     }
 }
