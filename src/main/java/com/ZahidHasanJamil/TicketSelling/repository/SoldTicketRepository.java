@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SoldTicketRepository extends JpaRepository<SoldTicket, Long> {
+    SoldTicket findByTicketId(Long id);
 }

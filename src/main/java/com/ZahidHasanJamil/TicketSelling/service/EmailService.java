@@ -4,5 +4,5 @@ import com.ZahidHasanJamil.TicketSelling.dto.EmailDetails;
 
 
 public interface EmailService {
-    String sendEmail(EmailDetails details);
+    boolean sendEmail(EmailDetails emailDetails);
 }

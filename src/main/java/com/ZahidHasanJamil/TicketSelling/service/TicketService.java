@@ -17,4 +17,8 @@ public interface TicketService {
     List<Ticket> getBuyableTicket(String token);
 
     boolean buyTicket(Long id, String token);
+
+    boolean finalizeRefund(Long id);
+
+    boolean refundTicket(Long id);
 }

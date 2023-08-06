@@ -1,6 +1,5 @@
 package com.ZahidHasanJamil.TicketSelling.controller;
 
-import com.ZahidHasanJamil.TicketSelling.dto.EmailDetails;
 import com.ZahidHasanJamil.TicketSelling.dto.NewTicketReqDto;
 import com.ZahidHasanJamil.TicketSelling.dto.SearchReqDto;
 import com.ZahidHasanJamil.TicketSelling.exception.NotValidException;
@@ -87,17 +86,27 @@ public class TicketController {
     }
 
     @GetMapping("/buy")
-    public ResponseEntity<?> buyTicket(@RequestParam Long id, @RequestHeader(name = "Authorization") String token)   {
+    public ResponseEntity<?> buyTicket(@RequestParam Long id, @RequestHeader(name = "Authorization") String token) {
         boolean bought = ticketService.buyTicket(id, token);
-        if(bought)  {
+        if (bought) {
             return ResponseEntity.status(HttpStatus.OK).body("TICKET HAS BEEN BOUGHT SUCCESSFULLY");
         }
         return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("TICKET CAN'T BE BOUGHT RIGHT NOW.PLEASE TRY AGAIN");
     }
 
-    @PostMapping("/send-email")
-    public String sendEmail(@RequestBody EmailDetails details) {
-        String status = emailService.sendEmail(details);
-        return status;
+    @GetMapping("/refund")
+    public ResponseEntity<?> refundTicket(@RequestParam Long id) {
+        if (ticketService.refundTicket(id)) {
+            return ResponseEntity.status(HttpStatus.OK).body("REFUND REQUEST HAS BEEN SENT");
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ERROR WHILE SENDING REQUEST");
+    }
+
+    @GetMapping("/refund-finalize")
+    public ResponseEntity<?> finalizeRefund(@RequestParam Long id) {
+        if (ticketService.finalizeRefund(id)) {
+            return ResponseEntity.status(HttpStatus.OK).body("REFUND HAS BEEN COMPLETED SUCCESSFULLY");
+        }
+        return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("TICKET CAN'T BE BOUGHT RIGHT NOW.PLEASE TRY AGAIN");
     }
 }

@@ -1,6 +1,7 @@
 package com.ZahidHasanJamil.TicketSelling.serviceImpl;
 
 import com.ZahidHasanJamil.TicketSelling.dto.EmailDetails;
+import com.ZahidHasanJamil.TicketSelling.repository.TicketRepository;
 import com.ZahidHasanJamil.TicketSelling.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,12 +14,15 @@ public class EmailServiceImpl implements EmailService {
 
     @Autowired
     private JavaMailSender javaMailSender;
+    @Autowired
+    TicketRepository ticketRepository;
 
     @Value("${spring.mail.username}")
     private String sender;
 
+
     @Override
-    public String sendEmail(EmailDetails details) {
+    public boolean sendEmail(EmailDetails details) {
         try {
             SimpleMailMessage mailMessage = new SimpleMailMessage();
 
@@ -28,9 +32,9 @@ public class EmailServiceImpl implements EmailService {
             mailMessage.setSubject(details.getSubject());
 
             javaMailSender.send(mailMessage);
-            return "Mail Sent Successfully.";
+            return true;
         } catch (Exception e) {
-            return "Error while Sending Mail";
+            return false;
         }
     }
 }

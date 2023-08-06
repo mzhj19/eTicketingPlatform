@@ -1,5 +1,6 @@
 package com.ZahidHasanJamil.TicketSelling.serviceImpl;
 
+import com.ZahidHasanJamil.TicketSelling.dto.EmailDetails;
 import com.ZahidHasanJamil.TicketSelling.dto.NewTicketReqDto;
 import com.ZahidHasanJamil.TicketSelling.dto.SearchReqDto;
 import com.ZahidHasanJamil.TicketSelling.model.SoldTicket;
@@ -8,6 +9,7 @@ import com.ZahidHasanJamil.TicketSelling.model.User;
 import com.ZahidHasanJamil.TicketSelling.repository.SoldTicketRepository;
 import com.ZahidHasanJamil.TicketSelling.repository.TicketRepository;
 import com.ZahidHasanJamil.TicketSelling.repository.UserRepository;
+import com.ZahidHasanJamil.TicketSelling.service.EmailService;
 import com.ZahidHasanJamil.TicketSelling.service.JwtService;
 import com.ZahidHasanJamil.TicketSelling.service.TicketService;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +32,8 @@ public class TicketServiceImpl implements TicketService {
     TicketRepository ticketRepository;
     @Autowired
     SoldTicketRepository soldTicketRepository;
+    @Autowired
+    EmailService emailService;
 
     @Override
     public Boolean saveNewTicket(NewTicketReqDto newTicketReqDto, String token) {
@@ -105,5 +109,36 @@ public class TicketServiceImpl implements TicketService {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public boolean refundTicket(Long id) {
+        EmailDetails emailDetails = new EmailDetails();
+        Ticket ticket = ticketRepository.findTicketById(id);
+        if (ticket == null) return false;
+        String recipient = ticket.getSellerEmail();
+
+        String textBody = "This request message is from '" + recipient + "' for refunding the ticket id: " + id + ".\n" + "Click here to accept the request\n" + "http://localhost:8080/api/v1/ticket/refund-finalize?id=" + id;
+        emailDetails.setRecipient(recipient);
+        emailDetails.setSubject("TICKET REFUND REQUEST");
+        emailDetails.setMsgBody(textBody);
+
+        return emailService.sendEmail(emailDetails);
+    }
+
+    @Override
+    public boolean finalizeRefund(Long id) {
+        var soldTicket = soldTicketRepository.findByTicketId(id);
+        if (soldTicket != null) {
+            Long soldId = soldTicket.getId();
+            soldTicketRepository.deleteById(soldId);
+            Ticket ticket = ticketRepository.findById(id).orElse(null);
+            if (ticket != null) {
+                ticket.setBuyer("");
+                ticket.setSellStatus(false);
+                ticketRepository.save(ticket);
+            }
+        }
+        return true;
     }
 }
