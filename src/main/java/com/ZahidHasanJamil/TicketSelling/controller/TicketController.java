@@ -107,6 +107,6 @@ public class TicketController {
         if (ticketService.finalizeRefund(id)) {
             return ResponseEntity.status(HttpStatus.OK).body("REFUND HAS BEEN COMPLETED SUCCESSFULLY");
         }
-        return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("TICKET CAN'T BE BOUGHT RIGHT NOW.PLEASE TRY AGAIN");
+        return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("TICKET CAN'T BE REFUNDED RIGHT NOW");
     }
 }
