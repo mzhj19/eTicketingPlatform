@@ -118,7 +118,7 @@ public class TicketServiceImpl implements TicketService {
         if (ticket == null) return false;
         String recipient = ticket.getSellerEmail();
 
-        String textBody = "This request message is from '" + recipient + "' for refunding the ticket id: " + id + ".\n" + "Click here to accept the request\n" + "http://localhost:8080/api/v1/ticket/refund-finalize?id=" + id;
+        String textBody = "This request message is from '" + ticket.getBuyer() + "' for refunding the ticket id: " + id + ".\n" + "Click here to accept the request\n" + "http://localhost:8080/api/v1/ticket/refund-finalize?id=" + id;
         emailDetails.setRecipient(recipient);
         emailDetails.setSubject("TICKET REFUND REQUEST");
         emailDetails.setMsgBody(textBody);
