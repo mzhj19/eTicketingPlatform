@@ -54,11 +54,11 @@ public class TicketController {
     }
 
     @PutMapping("/edit/{id}")
-    public ResponseEntity<?> editTicket(@PathVariable Long id, @RequestBody @Valid Ticket updateData, BindingResult result) {
+    public ResponseEntity<?> editTicket(@RequestHeader(name = "Authorization") String token, @PathVariable Long id, @RequestBody @Valid Ticket updateData, BindingResult result) {
         if (result.hasErrors()) {
             throw new NotValidException("PLEASE GIVE CORRECT DATA");
         }
-        var resData = ticketService.editTicket(id, updateData);
+        var resData = ticketService.editTicket(token, id, updateData);
         if (resData != null) {
             return ResponseEntity.ok("TICKET UPDATED SUCCESSFULLY");
         }
