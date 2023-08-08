@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="SoldSummary" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20"
+              topMargin="20" bottomMargin="20" uuid="a9a300c5-78cd-4eff-8456-e9dfc1edcd54">
+    <property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+    <property name="com.jaspersoft.studio.data.defaultdataadapter" value="e-ticket"/>
+    <property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="437"/>
+    <property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="558"/>
+    <parameter name="start_date" class="java.lang.String"/>
+    <parameter name="end_date" class="java.lang.String"/>
+    <queryString language="SQL">
+        <![CDATA[SELECT ticket_type, COUNT(id) As totalTicket, SUM(amount_in_tk) AS totalAmount
+FROM sold_ticket
+WHERE 
+	DATE_FORMAT(sold_date, '%Y-%m-%d') > $P{start_date}   or $P{start_date}   IS NULL AND DATE_FORMAT(sold_date, '%Y-%m-%d') <=  $P{end_date}  or $P{end_date}  IS NULL
+GROUP BY ticket_type;]]>
+    </queryString>
+    <field name="ticket_type" class="java.lang.String"/>
+    <field name="totalTicket" class="java.lang.Long"/>
+    <field name="totalAmount" class="java.lang.Double"/>
+    <background>
+        <band splitType="Stretch"/>
+    </background>
+    <title>
+        <band height="79" splitType="Stretch">
+            <textField>
+                <reportElement mode="Opaque" x="0" y="30" width="555" height="30" forecolor="#A6160C"
+                               backcolor="#C7F2E4" uuid="8ccbaaf5-86f8-4410-9f32-c3b9cb366e1b"/>
+                <textElement textAlignment="Center">
+                    <font size="18" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Summary Report of your search:"]]></textFieldExpression>
+            </textField>
+        </band>
+    </title>
+    <pageHeader>
+        <band height="35" splitType="Stretch"/>
+    </pageHeader>
+    <columnHeader>
+        <band height="29" splitType="Stretch">
+            <staticText>
+                <reportElement mode="Opaque" x="0" y="-1" width="185" height="30" backcolor="#CAEDE4"
+                               uuid="3a33ae77-2466-4372-a098-94803a06a9e9"/>
+                <box>
+                    <topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="DejaVu Serif" size="12" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Ticket Type]]></text>
+            </staticText>
+            <staticText>
+                <reportElement mode="Opaque" x="185" y="-1" width="185" height="30" backcolor="#CAEDE4"
+                               uuid="c5a5e31f-1e3d-4b3f-aee3-985b5f5df826"/>
+                <box>
+                    <topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="DejaVu Serif" size="12" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Total Ticket]]></text>
+            </staticText>
+            <staticText>
+                <reportElement mode="Opaque" x="370" y="-1" width="184" height="30" backcolor="#CAEDE4"
+                               uuid="ec70399e-c9e3-4e45-b782-df4a64470f98"/>
+                <box>
+                    <topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="DejaVu Serif" size="12" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Total Amount]]></text>
+            </staticText>
+        </band>
+    </columnHeader>
+    <detail>
+        <band height="29" splitType="Stretch">
+            <textField>
+                <reportElement x="0" y="-1" width="185" height="30" uuid="d1354915-4b51-4e29-bf38-2ccbdfb84579"/>
+                <box>
+                    <topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <textFieldExpression><![CDATA[$F{ticket_type}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="185" y="-1" width="185" height="30" uuid="ecba3779-7ff2-4704-9500-18e556468d6b"/>
+                <box>
+                    <topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <textFieldExpression><![CDATA[$F{totalTicket}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="370" y="-1" width="184" height="30" uuid="bbad4d57-4688-4582-ac1f-64eb38d2b42c"/>
+                <box>
+                    <topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <textFieldExpression><![CDATA[$F{totalAmount}]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+    <columnFooter>
+        <band height="45" splitType="Stretch"/>
+    </columnFooter>
+    <pageFooter>
+        <band height="54" splitType="Stretch"/>
+    </pageFooter>
+    <summary>
+        <band height="42" splitType="Stretch"/>
+    </summary>
+</jasperReport>
