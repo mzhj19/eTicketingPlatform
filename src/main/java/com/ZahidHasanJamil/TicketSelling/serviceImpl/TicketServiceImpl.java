@@ -59,8 +59,8 @@ public class TicketServiceImpl implements TicketService {
     @Override
     public Optional<Ticket> editTicket(String token, Long id, Ticket updateData) {
         Ticket previousTicket = ticketRepository.findById(id).orElseThrow(null);
-        String sellerEmail = userRepository.findByEmail(jwtService.extractUsername(token.substring(7))).get().getUsername();
-        if (!previousTicket.getSellerEmail().equals(sellerEmail) || previousTicket == null) return null;
+        User user = userRepository.findByEmail(jwtService.extractUsername(token.substring(7))).orElse(null);
+        if (user == null || !previousTicket.getSellerEmail().equals(user.getEmail()) || previousTicket == null) return null;
 
         previousTicket.setTicketType(updateData.getTicketType());
         previousTicket.setSeller(previousTicket.getSeller());

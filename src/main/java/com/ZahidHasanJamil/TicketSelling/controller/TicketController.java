@@ -54,7 +54,7 @@ public class TicketController {
     }
 
     @PutMapping("/edit/{id}")
-    public ResponseEntity<?> editTicket(@RequestHeader(name = "Authorization") String token, @PathVariable Long id, @RequestBody @Valid Ticket updateData, BindingResult result) {
+    public ResponseEntity<?> editTicket(@RequestHeader(name = "Authorization") String token,@PathVariable Long id, @RequestBody @Valid Ticket updateData, BindingResult result) {
         if (result.hasErrors()) {
             throw new NotValidException("PLEASE GIVE CORRECT DATA");
         }
