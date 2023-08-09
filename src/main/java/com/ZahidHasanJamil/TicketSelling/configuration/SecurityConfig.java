@@ -23,7 +23,7 @@ public class SecurityConfig {
         http
                 .csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/api/v1/auth/**", "/api/v1/ticket/**")
+                .requestMatchers("/api/v1/user/**", "/api/v1/ticket/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated()

@@ -1,5 +1,6 @@
 package com.ZahidHasanJamil.TicketSelling.controller;
 
+import com.ZahidHasanJamil.TicketSelling.constant.WebApiUrlConstants;
 import com.ZahidHasanJamil.TicketSelling.service.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -13,12 +14,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/report")
 public class ReportController {
     @Autowired
     ReportService reportService;
 
-    @GetMapping("/sold-summary-report")
+    @GetMapping(WebApiUrlConstants.SOLD_SUMMARY_API)
     public ResponseEntity<byte[]> generateReport(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") String startDate,
                                                  @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") String endDate) {
         try {

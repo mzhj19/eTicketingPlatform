@@ -1,9 +1,10 @@
 package com.ZahidHasanJamil.TicketSelling.controller;
 
-import com.ZahidHasanJamil.TicketSelling.exception.NotValidException;
+import com.ZahidHasanJamil.TicketSelling.constant.WebApiUrlConstants;
 import com.ZahidHasanJamil.TicketSelling.dto.AuthResponseDto;
 import com.ZahidHasanJamil.TicketSelling.dto.LoginRequestDto;
 import com.ZahidHasanJamil.TicketSelling.dto.RegisterRequestDto;
+import com.ZahidHasanJamil.TicketSelling.exception.NotValidException;
 import com.ZahidHasanJamil.TicketSelling.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -12,17 +13,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
 public class AuthController {
 
     private final AuthService authService;
 
-    @PostMapping
+    @PostMapping(WebApiUrlConstants.USER_LOGIN_API)
     public ResponseEntity<AuthResponseDto> login(@RequestBody LoginRequestDto registerRequestDto) {
         //return ResponseEntity.ok(authService.login(registerRequestDto));
 
@@ -36,7 +35,7 @@ public class AuthController {
         }
     }
 
-    @PostMapping("/register")
+    @PostMapping(WebApiUrlConstants.USER_REGISTER_API)
     public ResponseEntity<AuthResponseDto> register(@Valid @RequestBody RegisterRequestDto registerRequestDto, BindingResult bindingResult) throws NotValidException {
         System.out.println(registerRequestDto);
         if (bindingResult.hasErrors()) {
